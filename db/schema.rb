@@ -10,11 +10,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171225111248) do
+ActiveRecord::Schema.define(version: 20171225151229) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "pools", force: :cascade do |t|
+    t.string "name"
+    t.bigint "admin_id"
+    t.integer "amount"
+    t.integer "monthly_amount"
+    t.integer "seat_number"
+    t.string "status"
+    t.integer "turn"
+    t.time "launch_date"
+    t.time "end_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "number_of_users"
+    t.index ["admin_id"], name: "index_pools_on_admin_id"
+  end
+    
   create_table "users", force: :cascade do |t|
     t.string "username"
     t.string "password"
