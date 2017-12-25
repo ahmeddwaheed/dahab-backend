@@ -4,4 +4,5 @@ Rails.application.routes.draw do
 
   resources :pools 
 
+  resources :users
 end
