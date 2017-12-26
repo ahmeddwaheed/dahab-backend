@@ -9,5 +9,5 @@ class User < ApplicationRecord
     validates_presence_of :email
     validates_presence_of :password
 
-    validates_email_format_of :email, :message => 'is not looking good'
+    validates_email_format_of :email
 end
