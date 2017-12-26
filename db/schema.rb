@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171226090112) do
+ActiveRecord::Schema.define(version: 20171226120519) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,6 +29,29 @@ ActiveRecord::Schema.define(version: 20171226090112) do
     t.datetime "updated_at", null: false
     t.integer "number_of_users"
     t.index ["admin_id"], name: "index_pools_on_admin_id"
+  end
+
+  create_table "requests", force: :cascade do |t|
+    t.boolean "is_accepted", default: false
+    t.bigint "user_id"
+    t.bigint "pool_id"
+    t.text "reason"
+    t.text "background"
+    t.string "program"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["pool_id"], name: "index_requests_on_pool_id"
+    t.index ["user_id"], name: "index_requests_on_user_id"
+  end
+
+  create_table "user_pools", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "pool_id"
+    t.integer "position"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["pool_id"], name: "index_user_pools_on_pool_id"
+    t.index ["user_id"], name: "index_user_pools_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|

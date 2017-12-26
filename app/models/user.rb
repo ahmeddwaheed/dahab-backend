@@ -1,8 +1,8 @@
 class User < ApplicationRecord
 
     has_many :requests, dependent: :destroy
-    # has_many :pools
-    # has_many :requests
+    has_many :user_pools
+    has_many :pools, through: :user_pools
 
     validates_presence_of :username
 
