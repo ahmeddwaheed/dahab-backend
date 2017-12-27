@@ -13,7 +13,7 @@ users = User.create!([{username: 'hussien', password: '123456', email: 'hussien@
         {username: 'Waheed', password: '123456', email: 'Waheed@me.com'},
         {username: 'Mostafa', password: '123456', email: 'mostafa@me.com'}])
 
-requests = Request.create!([{background: "ay klam", program: "fireup", reason:"klam brdo", user_id: 1, pool_id: 1}])
+requests = Request.create!([{background: "ay klam", program: "fireup", reason:"klam brdo", user_id: 1, pool_id: 1, is_accepted:true}])
 
 
 
