@@ -4,11 +4,22 @@ class RequestsController < ApplicationController
     # before_action :set_user_request, only: [:show, :destory]
     before_action :set_request, only:[:show, :destroy]
 
+    
     def index
         @requests = Request.all
         json_response(@requests)
     end
-    
+
+    def find_user
+        @request = Request.find_by!(user_id: params[:user_id])
+        json_response(@request)
+    end
+
+    def find_pool
+        @request = Request.find_by!(pool_id: params[:pool_id])
+        json_response(@request)
+    end
+
     def show
         render json: {request: @request}
     end
@@ -36,6 +47,6 @@ class RequestsController < ApplicationController
 
     def set_request
         @request = Request.find(params[:id])
-    end 
+    end
 
 end
