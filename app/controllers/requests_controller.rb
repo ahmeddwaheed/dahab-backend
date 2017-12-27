@@ -1,7 +1,8 @@
 class RequestsController < ApplicationController
 
-    before_action :set_request, except: [:index]
-    before_action :set_user_request, only: [:show, :destory]
+    # before_action :set_request, except: [:index]
+    # before_action :set_user_request, only: [:show, :destory]
+    before_action :set_request, only:[:show, :destroy]
 
     def index
         @requests = Request.all
@@ -9,17 +10,13 @@ class RequestsController < ApplicationController
     end
     
     def show
-        json_response(@request)
-    end
-
-    def new
-        @request = @user.requests.new
+        render json: {request: @request}
     end
 
     def create
-        @request = @user.requests.new request_params
+        @request = Request.new request_params
         if @request.save
-            json_response(@user, :created)
+            render json: {request: @request}
         else
             head :no_content
         end
@@ -34,14 +31,11 @@ class RequestsController < ApplicationController
     private 
     
     def request_params
-        params.require(:request).permit(:is_accepted, :program, :reason, :background)
+        params.require(:request).permit(:is_accepted, :program, :reason, :background, :user_id, :pool_id)
     end 
 
     def set_request
-        @user = User.find(params[:user_id])
+        @request = Request.find(params[:id])
     end 
 
-    def set_user_request
-        @request = @user.requests.find_by!(id: params[:id]) if @user
-    end
 end

@@ -3,7 +3,7 @@ class CreateRequests < ActiveRecord::Migration[5.1]
     create_table :requests do |t|
       t.boolean :is_accepted, :default => false
       t.belongs_to :user
-      t.belongs_to :pool      
+      t.belongs_to :pool
       t.text :reason
       t.text :background
       t.string :program
