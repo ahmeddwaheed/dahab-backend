@@ -1,10 +1,9 @@
 class UsersController < ApplicationController
-
     before_action :set_user, only: [:show, :update, :destroy]
 
     def index
         @users = User.all
-        json_response(@users)
+        json_response(users:@users)
     end
 
     def create
@@ -12,13 +11,13 @@ class UsersController < ApplicationController
         if @user.save
             render json: {user: @user}
         else
-            head :no_content
+            render json: { errors: @user.errors.full_messages }, status: :bad_request
         end
     end
 
     def update
         @user.update(user_params)
-        head :no_content
+        render json: { errors: @user.errors.full_messages }, status: :bad_request
     end
 
     def show
@@ -27,14 +26,14 @@ class UsersController < ApplicationController
 
     def destroy
         @user.destroy
-        head :no_content
+        render json: { errors: @user.errors.full_messages }, status: :bad_request
     end
 
 
     private
 
     def user_params
-        params.require(:user).permit(:username, :password, :email, :in_pool)
+        params.require(:user).permit(:name, :email, :password, :password_confirmation)
     end
     
     def set_user

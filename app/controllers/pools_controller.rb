@@ -8,7 +8,28 @@ class PoolsController < ApplicationController
     end
 
     def show
-      render json: {status: 'SUCCESS', message: 'Loaded Pool', data: pool}, status: :ok
+      user_pool = UserPool.all
+      @user_card = user_pool.where!(pool_id:params[:id])
+      @array_of_cards = []
+      @card = {}
+      for i in (0...@user_card.count)
+        j = @user_card[i][:position]
+        @array_of_cards[j - 1] = @user_card[i]
+      end
+      for i in (0...@pool.seat_number)
+        if !@array_of_cards[i]
+          @card = {
+                  :id => nil,
+                  :user_id => nil,
+                  :pool_id => 1,
+                  :position => i + 1,
+                  :created_at => nil,
+                  :updated_at => nil
+                }
+        @array_of_cards[i] = @card
+        end
+      end
+      render json: {status: 'SUCCESS', message: 'Loaded Pool', data: @pool, userCard: @array_of_cards}, status: :ok
     end
 
     def create

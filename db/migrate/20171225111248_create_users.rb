@@ -1,10 +1,14 @@
 class CreateUsers < ActiveRecord::Migration[5.1]
   def change
     create_table :users do |t|
-      t.string :username
-      t.string :password
-      t.string :email
+      t.string :name
+      t.string :password_digest,    null: false
+      t.string :email,              null: false
       t.boolean :in_pool, :default => false
+      t.string   :confirmation_token
+      t.datetime :confirmed_at
+      t.datetime :confirmation_sent_at
+      
       t.timestamps
     end
   end
