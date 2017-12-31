@@ -7,9 +7,10 @@ Rails.application.routes.draw do
       get 'find_pool', to: "requests#find_pool"      
     end
   end
-  resources :users do
+  resources :users, only: :create do ### LEEEEEH?
     collection do
       post 'confirm'
+      post 'login'
     end
   end
   resources :admins

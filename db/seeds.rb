@@ -19,7 +19,7 @@ requests = Request.create!([{background: "ay klam", program: "fireup", reason:"k
 
 user_pool = UserPool.create!([{user_id: 2, pool_id:1, position: 2}, {user_id: 1, pool_id:1, position: 4}])
 
-admins = Admin.create!([{name: "hussein", email: "hussein@almakinah.com", password: "123456789"}])
+# admins = Admin.create!([{name: "hussein", email: "hussein@almakinah.com", password: "123456789"}])
 
 
 
