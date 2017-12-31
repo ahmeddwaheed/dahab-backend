@@ -56,7 +56,7 @@ ActiveRecord::Schema.define(version: 20171226120519) do
 
   create_table "users", force: :cascade do |t|
     t.string "name"
-    t.string "password_digest", null: false
+    t.string "password_digest"
     t.string "email", null: false
     t.boolean "in_pool", default: false
     t.string "confirmation_token"

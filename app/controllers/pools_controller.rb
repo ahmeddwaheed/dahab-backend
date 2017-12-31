@@ -21,7 +21,7 @@ class PoolsController < ApplicationController
           @card = {
                   :id => nil,
                   :user_id => nil,
-                  :pool_id => 1,
+                  :pool_id => @pool.id,
                   :position => i + 1,
                   :created_at => nil,
                   :updated_at => nil
