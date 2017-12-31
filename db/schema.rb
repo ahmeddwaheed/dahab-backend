@@ -63,14 +63,15 @@ ActiveRecord::Schema.define(version: 20171230155825) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "username"
-    t.string "password"
-    t.string "email"
+    t.string "name"
+    t.string "password_digest"
+    t.string "email", null: false
     t.boolean "in_pool", default: false
+    t.string "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "confirm_add"
-    t.string "confirmation_token"
   end
 
 end
