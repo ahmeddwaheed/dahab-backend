@@ -5,6 +5,7 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
 pools = Pool.create!([{name: 'GearUp2017', amount: '40000', monthly_amount: '4000', seat_number: '10', status: 'comming' },
         {name: 'FireUp2017', amount: '200000', monthly_amount: '20000', seat_number: '10', status: 'running' },
         {name: 'FireUp2016', amount: '4000', monthly_amount: '500', seat_number: '8', status: 'running' }])
@@ -18,9 +19,7 @@ requests = Request.create!([{background: "ay klam", program: "fireup", reason:"k
 
 user_pool = UserPool.create!([{user_id: 2, pool_id:1, position: 2}, {user_id: 1, pool_id:1, position: 4}])
 
-
-
-
+admins = Admin.create!([{name: "hussein", email: "hussein@almakinah.com", password: "123456789"}])
 
 
 
