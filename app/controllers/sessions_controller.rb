@@ -1,0 +1,21 @@
+class SessionsController < ApplicationController
+    def create
+        @user = User.find_by email: params[:email]
+        if @user && @user.authenticate(params[:password])
+            render json: response_obj(@user), status: :ok
+        else
+            render json: {message: 'Invalid email/password'}, status: :unauthorized
+        end
+    end
+
+    def logout
+
+    end
+
+    private
+    def response_obj(user)
+        {
+            auth_token: JsonWebToken.encode({user_id: user.id})
+        }
+    end
+end

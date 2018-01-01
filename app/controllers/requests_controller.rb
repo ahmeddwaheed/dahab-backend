@@ -11,12 +11,14 @@ class RequestsController < ApplicationController
     end
 
     def find_user
-        @request = Request.find_by!(user_id: params[:user_id])
+        @request = Request.all
+        @request = @request.where!(user_id: params[:user_id])
         json_response(@request)
     end
 
     def find_pool
-        @request = Request.find_by!(pool_id: params[:pool_id])
+        @request = Request.all
+        @request = @request.where!(pool_id: params[:pool_id])
         json_response(@request)
     end
 

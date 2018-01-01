@@ -7,12 +7,15 @@ Rails.application.routes.draw do
       get 'find_pool', to: "requests#find_pool"      
     end
   end
-  resources :users, only: :create do ### LEEEEEH?
+
+  resources :users_pools
+
+  resources :users do
     collection do
-      post 'confirm'
-      post 'login'
+      post 'login', to: 'sessions#create'
     end
   end
+
   resources :admins
   # resources :users
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

@@ -1,11 +1,11 @@
 class UsersController < ApplicationController
-    before_action :authenticate_request!
+    # before_action :authenticate_request!
     before_action :set_user, only: [:show, :update, :destroy]
 
-    def index
-        @users = User.all
-        json_response(users:@users)
-    end
+    # def index
+    #     @users = User.all
+    #     json_response(users:@users)
+    # end
 
     def create
         @user = User.new user_params
@@ -33,18 +33,7 @@ class UsersController < ApplicationController
 
         #### Authentication ####
 
-    def confirm
-        token = params[:token].to_s
-      
-        user = User.find_by(confirmation_token: token)
-      
-        if user.present? && user.confirmation_token_valid?
-          user.mark_as_confirmed!
-          render json: {status: 'User confirmed successfully'}, status: :ok
-        else
-          render json: {status: 'Invalid token'}, status: :not_found
-        end
-    end
+    
 
     private
 
@@ -56,4 +45,9 @@ class UsersController < ApplicationController
         @user = User.find(params[:id])
     end
 
+    def response_obj(user)
+        {
+          auth_token: JsonWebToken.encode({user_id: user.id})
+        }
+    end
 end

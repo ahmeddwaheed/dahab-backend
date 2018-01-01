@@ -34,7 +34,7 @@ ActiveRecord::Schema.define(version: 20171230155825) do
     t.time "end_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "number_of_users"
+    t.integer "number_of_users", default: 0
   end
 
   create_table "requests", force: :cascade do |t|
@@ -54,6 +54,7 @@ ActiveRecord::Schema.define(version: 20171230155825) do
     t.bigint "user_id"
     t.bigint "pool_id"
     t.integer "position"
+    t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["pool_id"], name: "index_user_pools_on_pool_id"
