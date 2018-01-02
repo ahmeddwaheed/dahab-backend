@@ -1,10 +1,27 @@
 class PoolsController < ApplicationController
 
   before_action :set_pool, only: [:show, :update, :destroy]
+  before_action :set_user, only: [:index]
+    def index
+      # current_user.pools.where(status: params[:status])
 
-  def index
-      pools = Pool.order('created_at DESC');
-      render json: {status: 'SUCCESS', message: 'Loaded Pools', data: pools}, status: :ok
+      if @current_user
+        if params[:status] == 'comming'
+          pools = Pool.where(status:'comming')
+          render json: {status: 'SUCCESS', message: 'Loaded Pools', data: pools}, status: :ok
+        else
+          pools = @current_user.pools.where(status: params[:status])
+          render json: {status: 'SUCCESS', message: 'Loaded Pools', data: pools}, status: :ok
+        end
+      else
+        if params[:status].present?
+          pools = Pool.where status: params[:status]
+          render json: {status: 'SUCCESS', message: 'Loaded Pools', data: pools}, status: :ok
+        else
+          pools = Pool.order('created_at DESC');
+          render json: {status: 'SUCCESS', message: 'Loaded Pools', data: pools}, status: :ok
+        end
+      end
     end
 
     def show
@@ -35,7 +52,9 @@ class PoolsController < ApplicationController
 
 
     private
-
+    def set_user
+      @current_user = User.find params[:id]
+    end
     def set_pool
       @pool = Pool.find params[:id]
     end
