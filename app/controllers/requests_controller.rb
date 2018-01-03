@@ -2,9 +2,9 @@ class RequestsController < ApplicationController
 
     # before_action :set_request, except: [:index]
     # before_action :set_user_request, only: [:show, :destory]
-    before_action :set_request, only:[:show, :destroy]
+    before_action :set_request, only:[:show, :destroy, :update]
 
-    
+
     def index
         @requests = Request.all
         json_response(@requests)
@@ -32,18 +32,26 @@ class RequestsController < ApplicationController
             head :no_content
         end
     end
-    
+
+    def update
+      if @request.update(request_params)
+        render json: {request: @request}, status: :ok
+      else
+        render json: {errors: @request.errors.full_messages}, status: :bad_request
+      end
+    end
+
     def destroy
         @request.destroy
         head :no_content
     end
 
 
-    private 
-    
+    private
+
     def request_params
         params.require(:request).permit(:is_accepted, :program, :reason, :background, :user_id, :pool_id)
-    end 
+    end
 
     def set_request
         @request = Request.find(params[:id])
