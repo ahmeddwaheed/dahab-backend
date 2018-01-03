@@ -2,12 +2,7 @@ class ApplicationController < ActionController::API
     include Response
     include ExceptionHandler
 
-
-
-        #### Authentication ####
-
     require 'json_web_token'
-
     
     def authenticate_request!
         if !current_user.present?

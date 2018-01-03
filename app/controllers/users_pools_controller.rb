@@ -9,12 +9,16 @@ class UsersPoolsController < ApplicationController
 
     def create
         user_exists = UserPool.find_by(user_id: params[:user_id])
+        seat = UserPool.where(position: params[:position])
         @pool = Pool.find(params[:pool_id])
-        if !user_exists
-            self.name = User.find(params[:user_id]).name
+        @user = User.find(params[:user_id])
+        
+        if !user_exists && seat.empty?
+            self.name = @user.name
             @users_pool = UserPool.new users_pool_params
-                        
             if @users_pool.save
+                @user.in_pool = true
+                @user.save 
                 @pool.number_of_users += 1
                 @pool.save
                 render json:{users_pools: @users_pool}
@@ -22,7 +26,7 @@ class UsersPoolsController < ApplicationController
                 render json: { errors: @users_pool.errors.full_messages }, status: :bad_request
             end
         else
-            render json: {message: "User already exists"}, status: :bad_request
+            render json: {message: "User already in pool or seat is taken"}, status: :bad_request
         end
     end
 
