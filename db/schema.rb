@@ -17,18 +17,16 @@ ActiveRecord::Schema.define(version: 20171226120519) do
 
   create_table "pools", force: :cascade do |t|
     t.string "name"
-    t.bigint "admin_id"
     t.integer "amount"
     t.integer "monthly_amount"
     t.integer "seat_number"
     t.string "status"
     t.integer "turn"
-    t.time "launch_date"
-    t.time "end_date"
+    t.date "launch_date"
+    t.date "end_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "number_of_users"
-    t.index ["admin_id"], name: "index_pools_on_admin_id"
   end
 
   create_table "requests", force: :cascade do |t|
