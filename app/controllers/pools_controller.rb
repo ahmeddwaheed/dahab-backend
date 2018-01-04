@@ -15,6 +15,16 @@ class PoolsController < ApplicationController
       #     render json: {status: 'SUCCESS', message: 'Loaded Pools', data: pools}, status: :ok
       #   end
       # else
+
+      # if @current_user
+      #   if params[:status] == 'comming'
+      #     pools = Pool.where(status:'comming')
+      #     render json: {status: 'SUCCESS', message: 'Loaded Pools', data: pools}, status: :ok
+      #   else
+      #     pools = @current_user.pools.where(status: params[:status])
+      #     render json: {status: 'SUCCESS', message: 'Loaded Pools', data: pools}, status: :ok
+      #   end
+      # else
         if params[:status].present?
           pools = Pool.where status: params[:status]
           render json: {status: 'SUCCESS', message: 'Loaded Pools', data: pools}, status: :ok
@@ -26,9 +36,36 @@ class PoolsController < ApplicationController
 
     end
 
-    def show
+#     def show
+#
+#       render json: {status: 'SUCCESS', message: 'Loaded Pool', data: @pool}, status: :ok
+# =======
+#       end
+    # end
 
-      render json: {status: 'SUCCESS', message: 'Loaded Pool', data: @pool}, status: :ok
+    def show
+      user_pool = UserPool.all
+      @user_card = user_pool.where!(pool_id:params[:id])
+      @array_of_cards = []
+      @card = {}
+      for i in (0...@user_card.count)
+        j = @user_card[i][:position]
+        @array_of_cards[j - 1] = @user_card[i]
+      end
+      for i in (0...@pool.seat_number)
+        if !@array_of_cards[i]
+          @card = {
+                  :id => nil,
+                  :user_id => nil,
+                  :pool_id => @pool.id,
+                  :position => i + 1,
+                  :created_at => nil,
+                  :updated_at => nil
+                }
+        @array_of_cards[i] = @card
+        end
+      end
+      render json: {status: 'SUCCESS', message: 'Loaded Pool', data: @pool, userCard: @array_of_cards}, status: :ok
     end
 
     def create
@@ -54,7 +91,9 @@ class PoolsController < ApplicationController
     end
 
     private
-
+    def set_user
+      @current_user = User.find params[:id]
+    end
     def set_pool
       @pool = Pool.find params[:id]
     end

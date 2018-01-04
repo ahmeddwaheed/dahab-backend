@@ -10,10 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171226120519) do
+ActiveRecord::Schema.define(version: 20171230155825) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "admins", force: :cascade do |t|
+    t.string "name"
+    t.string "email"
+    t.string "password"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "pools", force: :cascade do |t|
     t.string "name"
@@ -26,7 +34,11 @@ ActiveRecord::Schema.define(version: 20171226120519) do
     t.date "end_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+<<<<<<< HEAD
     t.integer "number_of_users"
+=======
+    t.integer "number_of_users", default: 0
+>>>>>>> 9b5f363ef509f29432f02a4adb7c712c9e6e0b1d
   end
 
   create_table "requests", force: :cascade do |t|
@@ -46,6 +58,7 @@ ActiveRecord::Schema.define(version: 20171226120519) do
     t.bigint "user_id"
     t.bigint "pool_id"
     t.integer "position"
+    t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["pool_id"], name: "index_user_pools_on_pool_id"
@@ -53,14 +66,15 @@ ActiveRecord::Schema.define(version: 20171226120519) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "username"
-    t.string "password"
-    t.string "email"
+    t.string "name"
+    t.string "password_digest"
+    t.string "email", null: false
     t.boolean "in_pool", default: false
+    t.string "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "confirm_add"
-    t.string "confirmation_token"
   end
 
 end

@@ -4,6 +4,7 @@ class CreateUserPools < ActiveRecord::Migration[5.1]
       t.belongs_to :user
       t.belongs_to :pool
       t.integer :position
+      t.string :name
       t.timestamps
     end
   end
