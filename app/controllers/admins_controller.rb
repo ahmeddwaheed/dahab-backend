@@ -1,23 +1,27 @@
 class AdminsController < ApplicationController
-
+  before_action :authenticate_admin!
   before_action :set_admin, only: [:show, :update, :destroy]
 
-  def index
-      admins = Admin.all;
-      render json: {status: 'SUCCESS', message: 'Loaded Admins', data: admins}, status: :ok
-    end
+    # def index
+    #   admins = Admin.all;
+    #   render json: {status: 'SUCCESS', message: 'Loaded Admins', data: admins}, status: :ok
+    # end
 
     def show
-      render json: {status: 'SUCCESS', message: 'Loaded Admin', data: admin}, status: :ok
+      render json: {status: 'SUCCESS', message: 'Loaded Admin', data: @admin}, status: :ok
     end
 
     def create
-      admin = Admin.new admin_params
-      if admin.save!
-        render json: {status: 'SUCCESS', message: 'Saved Admin', data: admin}, status: :ok
+      @admin = Admin.new admin_params
+      if @admin.save!
+        render json: {status: 'SUCCESS', message: 'Saved Admin', data: @admin}, status: :ok
       else
-        render json: {status: 'ERROR', message: 'Admin not saved', data: admin.errors}, status: :unprocessable_entity
+        render json: {status: 'ERROR', message: 'Admin not saved', data: @admin.errors}, status: :unprocessable_entity
       end
+    end
+
+    def currentAdmin
+      render json: @current_admin
     end
 
     def update
@@ -39,6 +43,6 @@ class AdminsController < ApplicationController
     end
 
     def admin_params
-      params.require(:admin).permit(:name, :email, :password)
+      params.permit(:name, :email, :password)
     end
 end

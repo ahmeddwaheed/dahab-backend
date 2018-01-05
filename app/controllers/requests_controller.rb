@@ -1,4 +1,6 @@
 class RequestsController < ApplicationController
+    before_action :authenticate_request!
+    before_action :authenticate_admin!, except: [:create]
 
     # before_action :set_request, except: [:index]
     # before_action :set_user_request, only: [:show, :destory]
@@ -35,14 +37,6 @@ class RequestsController < ApplicationController
         end
     end
 
-    def update
-      if @request.update(request_params)
-        render json: {request: @request}, status: :ok
-      else
-        render json: {errors: @request.errors.full_messages}, status: :bad_request
-      end
-    end
-
     def destroy
         @request.destroy
         head :no_content
@@ -52,7 +46,7 @@ class RequestsController < ApplicationController
     private
 
     def request_params
-        params.require(:request).permit(:is_accepted, :program, :reason, :background, :user_id, :pool_id)
+        params.permit(:is_accepted, :program, :reason, :background, :user_id, :pool_id)
     end
 
     def set_request

@@ -1,5 +1,5 @@
 class UsersPoolsController < ApplicationController
-
+    before_action :authenticate_request!
     attr_accessor :name
 
     def index
