@@ -2,6 +2,7 @@ class SessionsController < ApplicationController
     def create
         @user = User.find_by email: params[:email]
         if @user && @user.authenticate(params[:password])
+            # ReminderMailer.payment_notification(@user).deliver
             render json: response_obj(@user), status: :ok
         else
             render json: {message: 'Invalid email/password'}, status: :unauthorized

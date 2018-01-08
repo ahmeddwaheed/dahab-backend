@@ -34,11 +34,7 @@ ActiveRecord::Schema.define(version: 20171230155825) do
     t.date "end_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-<<<<<<< HEAD
-    t.integer "number_of_users"
-=======
     t.integer "number_of_users", default: 0
->>>>>>> 9b5f363ef509f29432f02a4adb7c712c9e6e0b1d
   end
 
   create_table "requests", force: :cascade do |t|

@@ -81,7 +81,7 @@ class PoolsController < ApplicationController
       if @pool.update_attributes pool_params
         render json: {status: 'SUCCESS', message: 'Updated Pool', data: @pool}, status: :ok
       else
-        render json: {status: 'ERROR', message: 'Pool not Updated', data: pool.errors}, status: :unprocessable_entity
+        render json: {status: 'ERROR', message: 'Pool not Updated', data: @pool.errors}, status: :unprocessable_entity
       end
     end
 
