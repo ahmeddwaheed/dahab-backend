@@ -23,6 +23,16 @@ ActiveRecord::Schema.define(version: 20171230155825) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "notifications", force: :cascade do |t|
+    t.string "message"
+    t.bigint "user_id"
+    t.bigint "pool_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["pool_id"], name: "index_notifications_on_pool_id"
+    t.index ["user_id"], name: "index_notifications_on_user_id"
+  end
+
   create_table "pools", force: :cascade do |t|
     t.string "name"
     t.integer "amount"
@@ -71,6 +81,7 @@ ActiveRecord::Schema.define(version: 20171230155825) do
     t.datetime "confirmation_sent_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
+    t.string "confirm_add"
+end
 
 end

@@ -43,9 +43,16 @@ class UsersPoolsController < ApplicationController
     private
     def users_pool_params
         params.permit(:user_id, :pool_id, :position).merge(name: @name)
+<<<<<<< HEAD
+=======
     end
 
     def launch
       PaymentNotificationJob.set(wait: 1.month).perform_later
+>>>>>>> 02ff9f3875d5b7c29c49567debee8181e4d87e22
     end
+
+    # def launch
+    #   PaymentNotificationJob.set(wait: 1.month).perform_later(@user)
+    # end
 end

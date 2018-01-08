@@ -33,7 +33,6 @@ class PoolsController < ApplicationController
           render json: {status: 'SUCCESS', message: 'Loaded Pools', data: pools}, status: :ok
         end
       # end
-
     end
 
 #     def show
