@@ -2,7 +2,7 @@ class PoolsController < ApplicationController
 
   before_action :set_pool, only: [:show, :update, :destroy]
 
-  def index
+    def index
       pools = Pool.order('created_at DESC');
       render json: {status: 'SUCCESS', message: 'Loaded Pools', data: pools}, status: :ok
     end

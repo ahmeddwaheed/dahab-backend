@@ -10,25 +10,41 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171226120519) do
+ActiveRecord::Schema.define(version: 20180108113705) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "admins", force: :cascade do |t|
+    t.string "name"
+    t.string "email"
+    t.string "password"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "notifications", force: :cascade do |t|
+    t.string "message"
+    t.bigint "user_id"
+    t.bigint "pool_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["pool_id"], name: "index_notifications_on_pool_id"
+    t.index ["user_id"], name: "index_notifications_on_user_id"
+  end
+
   create_table "pools", force: :cascade do |t|
     t.string "name"
-    t.bigint "admin_id"
     t.integer "amount"
     t.integer "monthly_amount"
     t.integer "seat_number"
     t.string "status"
     t.integer "turn"
-    t.time "launch_date"
-    t.time "end_date"
+    t.date "launch_date"
+    t.date "end_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "number_of_users"
-    t.index ["admin_id"], name: "index_pools_on_admin_id"
+    t.integer "number_of_users", default: 0
   end
 
   create_table "requests", force: :cascade do |t|
@@ -48,6 +64,7 @@ ActiveRecord::Schema.define(version: 20171226120519) do
     t.bigint "user_id"
     t.bigint "pool_id"
     t.integer "position"
+    t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["pool_id"], name: "index_user_pools_on_pool_id"
@@ -55,14 +72,16 @@ ActiveRecord::Schema.define(version: 20171226120519) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "username"
-    t.string "password"
-    t.string "email"
+    t.string "name"
+    t.string "password_digest"
+    t.string "email", null: false
     t.boolean "in_pool", default: false
+    t.string "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "confirm_add"
-    t.string "confirmation_token"
   end
 
 end
