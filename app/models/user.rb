@@ -2,6 +2,8 @@ class User < ApplicationRecord
 
     has_secure_password
 
+    mount_uploader :avatar, AvatarUploader
+
     before_save :downcase_email
     before_create :generate_confirmation_instructions
 
@@ -9,7 +11,8 @@ class User < ApplicationRecord
     has_many :user_pools
     has_many :pools, through: :user_pools
 
-    validates :name, :email, :password, :password_confirmation, presence: true
+    validates :name, :email, presence: true
+    validates :password, :password_confirmation, presence: true, on: :create
 
     validates_email_format_of :email
     validates_uniqueness_of :email

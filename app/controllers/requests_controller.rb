@@ -1,5 +1,4 @@
 class RequestsController < ApplicationController
-    before_action :authenticate_request!
     before_action :authenticate_admin!, except: [:create]
 
     # before_action :set_request, except: [:index]

@@ -26,6 +26,7 @@ gem 'puma', '~> 3.7'
 
 gem 'jwt'
 gem 'bcrypt'
+gem 'carrierwave', '~> 1.0'
 # gem 'rack-cors'
 gem 'rack-cors', :require => 'rack/cors'
 

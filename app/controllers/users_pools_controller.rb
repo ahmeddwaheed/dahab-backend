@@ -1,6 +1,7 @@
 class UsersPoolsController < ApplicationController
     before_action :authenticate_request!
     attr_accessor :name
+    attr_accessor :avatar
 
     def index
         @users_pools = UserPool.all
@@ -12,15 +13,17 @@ class UsersPoolsController < ApplicationController
         seat = UserPool.where(position: params[:position])
         @pool = Pool.find(params[:pool_id])
         @user = User.find(params[:user_id])
-        
+
         if !user_exists && seat.empty?
-            self.name = @user.name
             @users_pool = UserPool.new users_pool_params
+            @users_pool.name = @user.name
+            @users_pool.avatar = @user.avatar.url
+
             if @users_pool.save
-                @user.in_pool = true
-                @user.save 
+                @user.update(in_pool: true)
+
                 @pool.number_of_users += 1
-                @pool.save
+                @pool.save!
                 render json:{users_pools: @users_pool}
             else
                 render json: { errors: @users_pool.errors.full_messages }, status: :bad_request
@@ -36,7 +39,8 @@ class UsersPoolsController < ApplicationController
     end
 
     def destroy
-        @users_pool.destroy
+        # @users_pool.destroy
+        
         render json: { errors: @users_pool.errors.full_messages }, status: :bad_request
     end
 

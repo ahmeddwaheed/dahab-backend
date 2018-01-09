@@ -42,6 +42,7 @@ class PoolsController < ApplicationController
       @user_card = user_pool.where!(pool_id:params[:id])
       @array_of_cards = []
       @card = {}
+        
       for i in (0...@user_card.count)
         j = @user_card[i][:position]
         @array_of_cards[j - 1] = @user_card[i]
@@ -54,7 +55,8 @@ class PoolsController < ApplicationController
                   :pool_id => @pool.id,
                   :position => i + 1,
                   :created_at => nil,
-                  :updated_at => nil
+                  :updated_at => nil,
+                  :avatar => "http://bit.ly/2mhzC6H"
                 }
         @array_of_cards[i] = @card
         end
