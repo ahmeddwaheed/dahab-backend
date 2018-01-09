@@ -23,10 +23,18 @@ Rails.application.routes.draw do
       post 'register', to: 'registrations#create'
     end
   end
+  
+  get '/current_user', to: 'users#currentUser'
 
+  get '/current_admin', to: 'admins#currentAdmin'
+  
+  
 
-  # resources :admins
-  # resources :users
+  resources :admins do
+    collection do
+      post 'login', to: 'admin_session#create'
+    end
+  end
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
 end

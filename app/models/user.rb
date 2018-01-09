@@ -2,6 +2,8 @@ class User < ApplicationRecord
 
     has_secure_password
 
+    mount_uploader :avatar, AvatarUploader
+
     before_save :downcase_email
     before_create :generate_confirmation_instructions
 

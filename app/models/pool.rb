@@ -1,5 +1,5 @@
 class Pool < ApplicationRecord
-  belongs_to :admin, optional: true
+  # belongs_to :admin, optional: true
   has_many :requests
   has_many :user_pools
   has_many :users, -> { order('user_pools.position') }, through: :user_pools
@@ -11,8 +11,6 @@ class Pool < ApplicationRecord
   # validates :name, uniqueness: true
   validates :name, length:{minimum:4, maximum: 40}
   # validates :amount, :inclusion => 2000..25000
-
-
 
   # scope :ordered_amount, -> {order amount: :asc}
   # scope :starts_with, -> (starting_with){ where ("name LIKE ?", "#{starting_string}%")}
@@ -30,7 +28,4 @@ class Pool < ApplicationRecord
       self.launch if self.status_was == 'comming' && self.status == 'running'
     end
   end
-
-
-
 end

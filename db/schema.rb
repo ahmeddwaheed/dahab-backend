@@ -10,7 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180109091547) do
+ActiveRecord::Schema.define(version: 20180109111620) do
+
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -18,7 +19,7 @@ ActiveRecord::Schema.define(version: 20180109091547) do
   create_table "admins", force: :cascade do |t|
     t.string "name"
     t.string "email"
-    t.string "password"
+    t.string "password_digest"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -38,7 +39,7 @@ ActiveRecord::Schema.define(version: 20180109091547) do
     t.integer "amount"
     t.integer "monthly_amount"
     t.integer "seat_number"
-    t.string "status"
+    t.string "status", default: "comming"
     t.integer "turn"
     t.date "launch_date"
     t.date "end_date"
@@ -67,6 +68,7 @@ ActiveRecord::Schema.define(version: 20180109091547) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "avatar"
     t.index ["pool_id"], name: "index_user_pools_on_pool_id"
     t.index ["user_id"], name: "index_user_pools_on_user_id"
   end
@@ -81,7 +83,8 @@ ActiveRecord::Schema.define(version: 20180109091547) do
     t.datetime "confirmation_sent_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "confirm_add"
-  end
+    t.string "avatar", default: "http://bit.ly/2mhzC6H"
+end
+
 
 end

@@ -16,6 +16,10 @@ class UsersController < ApplicationController
         render json: {user: @current_user}
     end
 
+    def currentUser
+        render json: @current_user
+    end
+
     def destroy
         @user.destroy
         render json: { errors: @user.errors.full_messages }, status: :bad_request

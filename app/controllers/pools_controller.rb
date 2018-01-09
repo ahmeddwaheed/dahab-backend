@@ -1,7 +1,6 @@
 class PoolsController < ApplicationController
-
+  # before_action :authenticate_request!
   before_action :set_pool, only: [:show, :update, :destroy]
-
   # before_action :set_user, only: [:index]
     def index
       # current_user.pools.where(status: params[:status])
@@ -15,16 +14,12 @@ class PoolsController < ApplicationController
       #     render json: {status: 'SUCCESS', message: 'Loaded Pools', data: pools}, status: :ok
       #   end
       # else
-
-      # if @current_user
-      #   if params[:status] == 'comming'
-      #     pools = Pool.where(status:'comming')
-      #     render json: {status: 'SUCCESS', message: 'Loaded Pools', data: pools}, status: :ok
-      #   else
-      #     pools = @current_user.pools.where(status: params[:status])
-      #     render json: {status: 'SUCCESS', message: 'Loaded Pools', data: pools}, status: :ok
-      #   end
-      # else
+        if @current_user
+          :authenticate_request!
+        elsif @current_admin
+          :authenticate_admin!
+        end
+        
         if params[:status].present?
           pools = Pool.where status: params[:status]
           render json: {status: 'SUCCESS', message: 'Loaded Pools', data: pools}, status: :ok
@@ -43,10 +38,16 @@ class PoolsController < ApplicationController
     # end
 
     def show
+      if @current_user
+        :authenticate_request!
+      elsif @current_admin
+        :authenticate_admin!
+      end
       user_pool = UserPool.all
       @user_card = user_pool.where!(pool_id:params[:id])
       @array_of_cards = []
       @card = {}
+        
       for i in (0...@user_card.count)
         j = @user_card[i][:position]
         @array_of_cards[j - 1] = @user_card[i]
@@ -59,7 +60,8 @@ class PoolsController < ApplicationController
                   :pool_id => @pool.id,
                   :position => i + 1,
                   :created_at => nil,
-                  :updated_at => nil
+                  :updated_at => nil,
+                  :avatar => "http://bit.ly/2mhzC6H"
                 }
         @array_of_cards[i] = @card
         end
