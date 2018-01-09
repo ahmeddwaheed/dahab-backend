@@ -12,6 +12,7 @@
 
 ActiveRecord::Schema.define(version: 20180109111620) do
 
+
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -48,7 +49,7 @@ ActiveRecord::Schema.define(version: 20180109111620) do
   end
 
   create_table "requests", force: :cascade do |t|
-    t.boolean "is_accepted", default: false
+    t.string "is_accepted", default: "pending"
     t.bigint "user_id"
     t.bigint "pool_id"
     t.text "reason"
@@ -84,5 +85,6 @@ ActiveRecord::Schema.define(version: 20180109111620) do
     t.datetime "updated_at", null: false
     t.string "avatar", default: "http://bit.ly/2mhzC6H"
 end
+
 
 end

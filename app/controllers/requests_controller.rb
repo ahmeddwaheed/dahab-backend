@@ -27,6 +27,23 @@ class RequestsController < ApplicationController
         render json: {request: @request}
     end
 
+    def accept
+      if @request.accept
+        render json: { message: "Accepted"}, status: :ok
+      else
+        render json: { message: "Failed", errors: @request.errors }, status: :unprocessable_entity
+      end
+    end
+
+    def reject
+      if @request.reject
+        render json: { message: "Rejected"}, status: :ok
+      else
+        render json: { message: "Failed", errors: @request.errors }, status: :unprocessable_entity
+      end
+    end
+
+
     def create
         @request = Request.new request_params
         if @request.save
