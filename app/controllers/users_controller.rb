@@ -2,10 +2,10 @@ class UsersController < ApplicationController
     before_action :authenticate_request!
     before_action :set_user, only: [:show, :update, :destroy]
 
-    # def index
-    #     @users = User.all
-    #     json_response(users:@users)
-    # end
+    def index
+        @users = User.all
+        json_response(users:@users)
+    end
 
     def update
         @user.update(user_params)

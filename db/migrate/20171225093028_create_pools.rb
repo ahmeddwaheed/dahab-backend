@@ -7,8 +7,8 @@ class CreatePools < ActiveRecord::Migration[5.1]
       t.integer :seat_number
       t.string :status, :default => "comming"
       t.integer :turn
-      t.time :launch_date
-      t.time :end_date
+      t.date :launch_date
+      t.date :end_date
 
       t.timestamps
     end

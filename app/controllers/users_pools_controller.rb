@@ -1,5 +1,5 @@
 class UsersPoolsController < ApplicationController
-    before_action :authenticate_request!
+    before_action :authenticate_request!, expect: [:launch]
     attr_accessor :name
     attr_accessor :avatar
 
@@ -21,7 +21,6 @@ class UsersPoolsController < ApplicationController
 
             if @users_pool.save
                 @user.update(in_pool: true)
-
                 @pool.number_of_users += 1
                 @pool.save!
                 render json:{users_pools: @users_pool}
@@ -40,12 +39,20 @@ class UsersPoolsController < ApplicationController
 
     def destroy
         # @users_pool.destroy
-        
         render json: { errors: @users_pool.errors.full_messages }, status: :bad_request
     end
 
-    private 
+    private
     def users_pool_params
         params.permit(:user_id, :pool_id, :position).merge(name: @name)
     end
+
+    def launch
+        :authenticate_admin!
+      PaymentNotificationJob.set(wait: 1.month).perform_later
+    end
+
+    # def launch
+    #   PaymentNotificationJob.set(wait: 1.month).perform_later(@user)
+    # end
 end

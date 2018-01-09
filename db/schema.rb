@@ -23,6 +23,16 @@ ActiveRecord::Schema.define(version: 20180109111620) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "notifications", force: :cascade do |t|
+    t.string "message"
+    t.bigint "user_id"
+    t.bigint "pool_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["pool_id"], name: "index_notifications_on_pool_id"
+    t.index ["user_id"], name: "index_notifications_on_user_id"
+  end
+
   create_table "pools", force: :cascade do |t|
     t.string "name"
     t.integer "amount"
@@ -30,8 +40,8 @@ ActiveRecord::Schema.define(version: 20180109111620) do
     t.integer "seat_number"
     t.string "status", default: "comming"
     t.integer "turn"
-    t.time "launch_date"
-    t.time "end_date"
+    t.date "launch_date"
+    t.date "end_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "number_of_users", default: 0
@@ -73,6 +83,6 @@ ActiveRecord::Schema.define(version: 20180109111620) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "avatar", default: "http://bit.ly/2mhzC6H"
-  end
+end
 
 end
