@@ -1,22 +1,22 @@
 class PoolsController < ApplicationController
-  # before_action :authenticate_request!
   before_action :set_pool, only: [:show, :update, :destroy]
   # before_action :set_user, only: [:index]
     def index
       # current_user.pools.where(status: params[:status])
 
-      # if @current_user
+      # if current_user
       #   if params[:status] == 'comming'
       #     pools = Pool.where(status:'comming')
       #     render json: {status: 'SUCCESS', message: 'Loaded Pools', data: pools}, status: :ok
       #   else
-      #     pools = @current_user.pools.where(status: params[:status])
+      #     pools = current_user.pools.where(status: params[:status])
       #     render json: {status: 'SUCCESS', message: 'Loaded Pools', data: pools}, status: :ok
       #   end
       # else
-        if @current_user
+      
+        if current_user
           :authenticate_request!
-        elsif @current_admin
+        elsif current_admin
           :authenticate_admin!
         end
         

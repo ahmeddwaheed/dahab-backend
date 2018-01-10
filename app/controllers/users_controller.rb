@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-    before_action :authenticate_request!
+    # before_action :authenticate_request!
     before_action :set_user, only: [:show, :update, :destroy]
 
     def index
@@ -13,11 +13,11 @@ class UsersController < ApplicationController
     end
 
     def show
-        render json: {user: @current_user}
+        render json: {user: current_user}
     end
 
     def currentUser
-        render json: @current_user
+        render json: current_user
     end
 
     def destroy
