@@ -38,19 +38,20 @@ class PoolsController < ApplicationController
     # end
 
     def show
-      if @current_user
+      if current_user
         :authenticate_request!
-      elsif @current_admin
+      elsif current_admin
         :authenticate_admin!
       end
       user_pool = UserPool.all
       @user_card = user_pool.where!(pool_id:params[:id])
       @array_of_cards = []
       @card = {}
-        
+      current_user_in_pool = false
       for i in (0...@user_card.count)
         j = @user_card[i][:position]
         @array_of_cards[j - 1] = @user_card[i]
+        current_user_in_pool = true if current_user && @user_card[i].user_id == current_user.id
       end
       for i in (0...@pool.seat_number)
         if !@array_of_cards[i]
@@ -66,7 +67,7 @@ class PoolsController < ApplicationController
         @array_of_cards[i] = @card
         end
       end
-      render json: {status: 'SUCCESS', message: 'Loaded Pool', data: @pool, userCard: @array_of_cards}, status: :ok
+      render json: {status: 'SUCCESS', message: 'Loaded Pool', data: @pool, userCard: @array_of_cards, current_user_in_pool: current_user_in_pool}, status: :ok
     end
 
     def create

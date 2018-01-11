@@ -5,6 +5,10 @@ Rails.application.routes.draw do
   resources :notifications
   resources :pools
 
+  
+  resources :charges
+
+
   resources :requests do
     patch 'accept', to: 'requests#accept'
     patch 'reject', to: 'requests#reject'

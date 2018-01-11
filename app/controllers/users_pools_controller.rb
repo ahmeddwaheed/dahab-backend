@@ -2,6 +2,7 @@ class UsersPoolsController < ApplicationController
     before_action :authenticate_request!, expect: [:launch]
     attr_accessor :name
     attr_accessor :avatar
+    before_action :set_users_pool, only: [:destroy, :update]
 
     def index
         @users_pools = UserPool.all
@@ -12,15 +13,14 @@ class UsersPoolsController < ApplicationController
         user_exists = UserPool.find_by(user_id: params[:user_id])
         seat = UserPool.where(position: params[:position])
         @pool = Pool.find(params[:pool_id])
-        @user = User.find(params[:user_id])
 
         if !user_exists && seat.empty?
             @users_pool = UserPool.new users_pool_params
-            @users_pool.name = @user.name
-            @users_pool.avatar = @user.avatar.url
+            @users_pool.name = current_user.name
+            @users_pool.avatar = current_user.avatar.url
 
             if @users_pool.save
-                @user.update(in_pool: true)
+                current_user.update(in_pool: true)
                 @pool.number_of_users += 1
                 @pool.save!
                 render json:{users_pools: @users_pool}
@@ -34,15 +34,23 @@ class UsersPoolsController < ApplicationController
 
     def update
         @users_pool.update(users_pool_params)
+        @pool = Pool.fin(@users_pools.pool_id)
+        @pool.number_of_users -= 1
+        @pool.save!
         render json: { errors: @users_pool.errors.full_messages }, status: :bad_request
     end
 
     def destroy
-        # @users_pool.destroy
-        render json: { errors: @users_pool.errors.full_messages }, status: :bad_request
+        current_user.update(in_pool: false)
+        @users_pool.destroy
+        # render json: { errors: @users_pool.errors.full_messages }, status: :bad_request
     end
 
     private
+
+    def set_users_pool
+        @users_pool = UserPool.find(params[:id])
+    end
     def users_pool_params
         params.permit(:user_id, :pool_id, :position).merge(name: @name)
     end
