@@ -83,7 +83,6 @@ ActiveRecord::Schema.define(version: 20180109111620) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "avatar", default: "http://bit.ly/2mhzC6H"
-    t.string "confirm_add"
   end
 
 end
