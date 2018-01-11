@@ -11,7 +11,7 @@ class PoolsController < ApplicationController
                   elsif params[:status].present?
                     current_user.pools.where(status: params[:status])
                   else
-                    current_user.pools + Pool.where(status: 'comming')
+                    current_user.pools.where.not(status: 'comming') + Pool.where(status: 'comming')
                   end
         elsif current_admin
           :authenticate_admin!

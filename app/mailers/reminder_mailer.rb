@@ -5,9 +5,10 @@ class ReminderMailer < ApplicationMailer
   #
   #   en.reminder_mailer.reminder.subject
   #
-  def payment_notification(user)
+  def payment_notification(user, pool_id)
     @greeting = "Hiiiiiiiiiii"
     @user = user
+    @pool_id = pool_id
     puts @greeting
 
     mail(to: @user.email, subject: "Payment Notification" )
