@@ -21,8 +21,6 @@ class ApplicationController < ActionController::API
             render json: { message: 'Invalid request'}, status: :unauthorized
     end
 
-    private
-
     def jwt_token
         @jwt_token ||= request.headers['Authentication-Token']
     end

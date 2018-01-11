@@ -1,13 +1,9 @@
 class PoolsController < ApplicationController
-  # before_action :authenticate_request!
   before_action :set_pool, only: [:show, :update, :destroy]
   # before_action :set_user, only: [:index]
+  before_action :authenticate_admin!, only: [:create, :update, :destory]
     def index
       # current_user.pools.where(status: params[:status])
-
-      # if @current_user
-
-      # else
         if current_user
           :authenticate_request!
           pools = if params[:status] == 'comming'
@@ -15,7 +11,7 @@ class PoolsController < ApplicationController
                   elsif params[:status].present?
                     current_user.pools.where(status: params[:status])
                   else
-                    current_user.pools + Pool.where(status: 'comming')
+                    current_user.pools.where.not(status: 'comming') + Pool.where(status: 'comming')
                   end
         elsif current_admin
           :authenticate_admin!
@@ -26,30 +22,23 @@ class PoolsController < ApplicationController
                   end
         end
         render json: {status: 'SUCCESS', message: 'Loaded Pools', data: pools}, status: :ok
-      # end
     end
 
-#     def show
-#
-#       render json: {status: 'SUCCESS', message: 'Loaded Pool', data: @pool}, status: :ok
-# =======
-#       end
-    # end
-
     def show
-      if @current_user
+      if current_user
         :authenticate_request!
-      elsif @current_admin
+      elsif current_admin
         :authenticate_admin!
       end
       user_pool = UserPool.all
       @user_card = user_pool.where!(pool_id:params[:id])
       @array_of_cards = []
       @card = {}
-
+      current_user_in_pool = false
       for i in (0...@user_card.count)
         j = @user_card[i][:position]
         @array_of_cards[j - 1] = @user_card[i]
+        current_user_in_pool = true if current_user && @user_card[i].user_id == current_user.id
       end
       for i in (0...@pool.seat_number)
         if !@array_of_cards[i]
@@ -65,10 +54,11 @@ class PoolsController < ApplicationController
         @array_of_cards[i] = @card
         end
       end
-      render json: {status: 'SUCCESS', message: 'Loaded Pool', data: @pool, userCard: @array_of_cards}, status: :ok
+      render json: {status: 'SUCCESS', message: 'Loaded Pool', data: @pool, userCard: @array_of_cards, current_user_in_pool: current_user_in_pool}, status: :ok
     end
 
     def create
+      :authenticate_admin!
       pool = Pool.new pool_params
       if pool.save
         render json: {status: 'SUCCESS', message: 'Saved Pool', data: pool}, status: :ok
@@ -86,6 +76,7 @@ class PoolsController < ApplicationController
     end
 
     def destroy
+      :authenticate_request!
       @pool.destroy
       render json: {status: 'SUCCESS', message: 'Deleted Pool'}, status: :ok
     end
