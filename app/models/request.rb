@@ -1,6 +1,6 @@
 class Request < ApplicationRecord
-    belongs_to :user
-    belongs_to :pool
+    # belongs_to :user
+    # belongs_to :pool
     # belongs_to :admin
     # validates_associated :user, on: :create
     validates_presence_of :background, on: :create
@@ -8,9 +8,9 @@ class Request < ApplicationRecord
     # before_save :check_is_accepted_and_notify
 
 
-    def notify message
-      notification = Notification.create message: message, pool_id: self.pool_id, user_id: self.user_id
-    end
+    # def notify message
+    #   notification = Notification.create message: message, pool_id: self.pool_id, user_id: self.user_id
+    # end
 
     # def reject
     #     if self.is_accepted_changed?
@@ -25,15 +25,11 @@ class Request < ApplicationRecord
     # end
 
     def accept
-      if self.update :is_accepted, 'accepted'
-        Notification.create message: "congrats your request is accepted!", pool_id: self.pool_id, user_id: self.user_id
-      end
+        Notification.create! message: "congrats your request is accepted!", pool_id: self.pool_id, user_id: self.user_id
     end
 
     def reject
-      if self.update :is_accepted, 'rejected'
-        Notification.create message: "Your request is rejected!", pool_id: self.pool_id, user_id: self.user_id
-      end
+        Notification.create! message: "Your request is rejected!", pool_id: self.pool_id, user_id: self.user_id
     end
 
 

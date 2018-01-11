@@ -1,41 +1,28 @@
 class PoolsController < ApplicationController
   before_action :set_pool, only: [:show, :update, :destroy]
   # before_action :set_user, only: [:index]
+  before_action :authenticate_admin!, only: [:create, :update, :destory]
     def index
       # current_user.pools.where(status: params[:status])
-
-      # if current_user
-      #   if params[:status] == 'comming'
-      #     pools = Pool.where(status:'comming')
-      #     render json: {status: 'SUCCESS', message: 'Loaded Pools', data: pools}, status: :ok
-      #   else
-      #     pools = current_user.pools.where(status: params[:status])
-      #     render json: {status: 'SUCCESS', message: 'Loaded Pools', data: pools}, status: :ok
-      #   end
-      # else
-      
         if current_user
           :authenticate_request!
+          pools = if params[:status] == 'comming'
+                    Pool.where(status:'comming')
+                  elsif params[:status].present?
+                    current_user.pools.where(status: params[:status])
+                  else
+                    current_user.pools + Pool.where(status: 'comming')
+                  end
         elsif current_admin
           :authenticate_admin!
+          pools = if params[:status].present?
+                    Pool.where status: params[:status]
+                  else
+                    Pool.order('created_at DESC');
+                  end
         end
-        
-        if params[:status].present?
-          pools = Pool.where status: params[:status]
-          render json: {status: 'SUCCESS', message: 'Loaded Pools', data: pools}, status: :ok
-        else
-          pools = Pool.order('created_at DESC');
-          render json: {status: 'SUCCESS', message: 'Loaded Pools', data: pools}, status: :ok
-        end
-      # end
+        render json: {status: 'SUCCESS', message: 'Loaded Pools', data: pools}, status: :ok
     end
-
-#     def show
-#
-#       render json: {status: 'SUCCESS', message: 'Loaded Pool', data: @pool}, status: :ok
-# =======
-#       end
-    # end
 
     def show
       if current_user
@@ -71,6 +58,7 @@ class PoolsController < ApplicationController
     end
 
     def create
+      :authenticate_admin!
       pool = Pool.new pool_params
       if pool.save
         render json: {status: 'SUCCESS', message: 'Saved Pool', data: pool}, status: :ok
@@ -88,6 +76,7 @@ class PoolsController < ApplicationController
     end
 
     def destroy
+      :authenticate_request!
       @pool.destroy
       render json: {status: 'SUCCESS', message: 'Deleted Pool'}, status: :ok
     end
