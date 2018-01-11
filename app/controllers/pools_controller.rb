@@ -6,27 +6,26 @@ class PoolsController < ApplicationController
       # current_user.pools.where(status: params[:status])
 
       # if @current_user
-      #   if params[:status] == 'comming'
-      #     pools = Pool.where(status:'comming')
-      #     render json: {status: 'SUCCESS', message: 'Loaded Pools', data: pools}, status: :ok
-      #   else
-      #     pools = @current_user.pools.where(status: params[:status])
-      #     render json: {status: 'SUCCESS', message: 'Loaded Pools', data: pools}, status: :ok
-      #   end
+
       # else
-        if @current_user
+        if current_user
           :authenticate_request!
-        elsif @current_admin
+          pools = if params[:status] == 'comming'
+                    Pool.where(status:'comming')
+                  elsif params[:status].present?
+                    current_user.pools.where(status: params[:status])
+                  else
+                    current_user.pools + Pool.where(status: 'comming')
+                  end
+        elsif current_admin
           :authenticate_admin!
+          pools = if params[:status].present?
+                    Pool.where status: params[:status]
+                  else
+                    Pool.order('created_at DESC');
+                  end
         end
-        
-        if params[:status].present?
-          pools = Pool.where status: params[:status]
-          render json: {status: 'SUCCESS', message: 'Loaded Pools', data: pools}, status: :ok
-        else
-          pools = Pool.order('created_at DESC');
-          render json: {status: 'SUCCESS', message: 'Loaded Pools', data: pools}, status: :ok
-        end
+        render json: {status: 'SUCCESS', message: 'Loaded Pools', data: pools}, status: :ok
       # end
     end
 
@@ -47,7 +46,7 @@ class PoolsController < ApplicationController
       @user_card = user_pool.where!(pool_id:params[:id])
       @array_of_cards = []
       @card = {}
-        
+
       for i in (0...@user_card.count)
         j = @user_card[i][:position]
         @array_of_cards[j - 1] = @user_card[i]

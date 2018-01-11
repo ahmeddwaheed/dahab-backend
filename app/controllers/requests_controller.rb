@@ -1,5 +1,5 @@
 class RequestsController < ApplicationController
-    before_action :authenticate_admin!, except: [:create]
+    # before_action :authenticate_admin!, except: [:create]
 
     # before_action :set_request, except: [:index]
     # before_action :set_user_request, only: [:show, :destory]
@@ -27,31 +27,46 @@ class RequestsController < ApplicationController
         render json: {request: @request}
     end
 
-    def accept
-      if @request.accept
-        render json: { message: "Accepted"}, status: :ok
-      else
-        render json: { message: "Failed", errors: @request.errors }, status: :unprocessable_entity
-      end
-    end
 
-    def reject
-      if @request.reject
-        render json: { message: "Rejected"}, status: :ok
-      else
-        render json: { message: "Failed", errors: @request.errors }, status: :unprocessable_entity
-      end
-    end
 
 
     def create
-        @request = Request.new request_params
+        @request = current_user.requests.create request_params
         if @request.save
             render json: {request: @request}
         else
             head :no_content
         end
     end
+
+    def update
+      if @request.update_attributes request_params
+        if params[:is_accepted] == 'accepted'
+          @request.accept
+        elsif params[:is_accepted] == 'rejected'
+          @request.reject
+        end
+        render json: {status: 'SUCCESS', message: 'Updated Pool', data: @request}, status: :ok
+      else
+        render json: {status: 'ERROR', message: 'Pool not Updated', data: @request.errors}, status: :unprocessable_entity
+      end
+    end
+    #
+    # def accept
+    #   if @request.accept
+    #     render json: { message: "Accepted"}, status: :ok
+    #   else
+    #     render json: { message: "Failed", errors: @request.errors }, status: :unprocessable_entity
+    #   end
+    # end
+    #
+    # def reject
+    #   if @request.reject
+    #     render json: { message: "Rejected"}, status: :ok
+    #   else
+    #     render json: { message: "Failed", errors: @request.errors }, status: :unprocessable_entity
+    #   end
+    # end
 
     def destroy
         @request.destroy

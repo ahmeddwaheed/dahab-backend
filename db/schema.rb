@@ -12,7 +12,6 @@
 
 ActiveRecord::Schema.define(version: 20180109111620) do
 
-
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -84,7 +83,7 @@ ActiveRecord::Schema.define(version: 20180109111620) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "avatar", default: "http://bit.ly/2mhzC6H"
-end
-
+    t.string "confirm_add"
+  end
 
 end
