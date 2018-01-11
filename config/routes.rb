@@ -17,18 +17,21 @@ Rails.application.routes.draw do
 
   resources :users_pools
 
+  mount ActionCable.server => '/cable'
+
+
   resources :users do
     collection do
       post 'login', to: 'sessions#create'
       post 'register', to: 'registrations#create'
     end
   end
-  
+
   get '/current_user', to: 'users#currentUser'
 
   get '/current_admin', to: 'admins#currentAdmin'
-  
-  
+
+
 
   resources :admins do
     collection do

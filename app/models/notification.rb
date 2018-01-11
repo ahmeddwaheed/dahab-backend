@@ -5,6 +5,11 @@ class Notification < ApplicationRecord
 
   # validates :pool, :user, :message, presence: true
 
+
+  after_create_commit do
+    NotificationMessageCreationEventBroadcastJob.perform_later(self)
+  end
+
 end
 #
 # belongs_to :admin, optional: true
