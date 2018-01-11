@@ -78,12 +78,8 @@ GEM
     mime-types-data (3.2016.0521)
     mini_mime (1.0.0)
     mini_portile2 (2.3.0)
-<<<<<<< HEAD
-    minitest (5.10.3)
-    multipart-post (2.0.0)
-=======
     minitest (5.11.1)
->>>>>>> df57aee87bd66aecb29ea088911a4ec51fab31f7
+    multipart-post (2.0.0)
     nio4r (2.2.0)
     nokogiri (1.8.1)
       mini_portile2 (~> 2.3.0)
