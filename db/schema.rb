@@ -37,7 +37,6 @@ ActiveRecord::Schema.define(version: 20180111142222) do
     t.bigint "user_id"
     t.bigint "pool_id"
     t.integer "amount"
-    t.date "payment_date"
     t.integer "turn", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -96,6 +95,7 @@ ActiveRecord::Schema.define(version: 20180111142222) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "avatar", default: "http://bit.ly/2mhzC6H"
+    t.string "confirm_add"
   end
 
 end
