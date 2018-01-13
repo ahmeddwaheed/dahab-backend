@@ -1,5 +1,6 @@
 class RequestsController < ApplicationController
-    # before_action :authenticate_admin!, except: [:create]
+    attr_accessor :user_name
+    before_action :authenticate_admin!, except: [:create]
 
     # before_action :set_request, except: [:index]
     # before_action :set_user_request, only: [:show, :destory]
@@ -31,7 +32,9 @@ class RequestsController < ApplicationController
 
 
     def create
+        :authenticate_request!
         @request = current_user.requests.create request_params
+        @request.user_name = current_user.name
         if @request.save
             render json: {request: @request}
         else

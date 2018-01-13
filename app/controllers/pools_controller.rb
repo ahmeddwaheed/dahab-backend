@@ -58,7 +58,6 @@ class PoolsController < ApplicationController
     end
 
     def create
-      :authenticate_admin!
       pool = Pool.new pool_params
       if pool.save
         render json: {status: 'SUCCESS', message: 'Saved Pool', data: pool}, status: :ok
@@ -68,6 +67,8 @@ class PoolsController < ApplicationController
     end
 
     def update
+
+      @pool.turn = 1
       if @pool.update_attributes pool_params
         render json: {status: 'SUCCESS', message: 'Updated Pool', data: @pool}, status: :ok
       else
@@ -76,7 +77,6 @@ class PoolsController < ApplicationController
     end
 
     def destroy
-      :authenticate_request!
       @pool.destroy
       render json: {status: 'SUCCESS', message: 'Deleted Pool'}, status: :ok
     end
