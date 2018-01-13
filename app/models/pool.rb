@@ -19,7 +19,7 @@ class Pool < ApplicationRecord
   def launch
     users = self.users.entries
     first_user = users.shift
-    PaymentNotificationJob.set(wait: 1.second).perform_later(first_user, users, 1, self.id)
+    PaymentNotificationJob.set(wait: 1.second).perform_later(first_user, users, 1, self)
   end
 
   private
