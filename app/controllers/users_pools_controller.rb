@@ -35,8 +35,10 @@ class UsersPoolsController < ApplicationController
     def update
         @users_pool.update(users_pool_params)
         @pool = Pool.find(@users_pools.pool_id)
-        @pool.number_of_users -= 1
-        @pool.save!
+        if (@pool.number_of_users > 0)
+          @pool.number_of_users -= 1
+          @pool.save!
+        end
         render json: { errors: @users_pool.errors.full_messages }, status: :bad_request
     end
 
@@ -46,7 +48,6 @@ class UsersPoolsController < ApplicationController
         @pool.save
         current_user.update(in_pool: false)
         @users_pool.destroy
-        # render json: { errors: @users_pool.errors.full_messages }, status: :bad_request
     end
 
     private

@@ -2,11 +2,6 @@ class AdminsController < ApplicationController
   before_action :authenticate_admin!
   before_action :set_admin, only: [:show, :update, :destroy]
 
-    # def index
-    #   admins = Admin.all;
-    #   render json: {status: 'SUCCESS', message: 'Loaded Admins', data: admins}, status: :ok
-    # end
-
     def show
       render json: {status: 'SUCCESS', message: 'Loaded Admin', data: @admin}, status: :ok
     end

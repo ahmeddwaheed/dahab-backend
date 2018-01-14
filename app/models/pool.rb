@@ -8,7 +8,6 @@ class Pool < ApplicationRecord
 
 
   validates :name, :amount, :monthly_amount, :seat_number, :status, presence: true
-  # validates :name, uniqueness: true
   validates :name, length:{minimum:4, maximum: 40}
   # validates :amount, :inclusion => 2000..25000
 
