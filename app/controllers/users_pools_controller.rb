@@ -11,10 +11,9 @@ class UsersPoolsController < ApplicationController
 
     def create
         user_exists = UserPool.find_by(user_id: params[:user_id])
-        seat = UserPool.where(position: params[:position])
         @pool = Pool.find(params[:pool_id])
 
-        if !user_exists && seat.empty?
+        if !user_exists
             @users_pool = UserPool.new users_pool_params
             @users_pool.name = current_user.name
             @users_pool.avatar = current_user.avatar.url
