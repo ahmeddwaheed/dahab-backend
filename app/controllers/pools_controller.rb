@@ -2,7 +2,6 @@ class PoolsController < ApplicationController
   before_action :set_pool, only: [:show, :update, :destroy]
   before_action :authenticate_admin!, only: [:create, :update, :destory]
     def index
-      # current_user.pools.where(status: params[:status])
         if current_user
           :authenticate_request!
           pools = if params[:status] == 'comming'

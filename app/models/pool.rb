@@ -1,5 +1,4 @@
 class Pool < ApplicationRecord
-  # belongs_to :admin, optional: true
   has_many :requests
   has_many :user_pools
   has_many :users, -> { order('user_pools.position') }, through: :user_pools

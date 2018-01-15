@@ -25,7 +25,9 @@ class Request < ApplicationRecord
     # end
 
     def accept
-        Notification.create! message: "congrats your request is accepted!", pool_id: self.pool_id, user_id: self.user_id
+        byebug
+        @pool_name = Pool.find(self.pool_id).name
+        Notification.create! message: "Congrats your request to #{@pool_name} is accepted!", pool_id: self.pool_id, user_id: self.user_id
     end
 
     def reject

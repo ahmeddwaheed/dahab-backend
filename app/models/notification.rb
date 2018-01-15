@@ -1,9 +1,9 @@
 class Notification < ApplicationRecord
 
   belongs_to :user
-  # belongs_to :pool
+  belongs_to :pool
 
-  # validates :pool, :user, :message, presence: true
+  validates :pool, :user, :message, presence: true
 
 
   after_create_commit do

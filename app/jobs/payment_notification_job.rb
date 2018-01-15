@@ -21,7 +21,7 @@ class PaymentNotificationJob < ApplicationJob
 
     if pool.number_of_users > pool.turn
       pool.update turn: pool.turn + 1
-      PaymentNotificationJob.set(wait: 1.second).perform_later(repayment_user, users, position, pool.id) unless position > users.length + 1
+      PaymentNotificationJob.set(wait: 1.month -3.days).perform_later(repayment_user, users, position, pool.id) unless position > users.length + 1
     end
   end
 end

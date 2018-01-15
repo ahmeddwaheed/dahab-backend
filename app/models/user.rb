@@ -19,10 +19,6 @@ class User < ApplicationRecord
 
     validates :password, confirmation: true, on: :create
     validates_confirmation_of :password_confirmation , on: :create
-    
-    scope :all_pools, -> {
-
-    }
 
 
     def downcase_email
